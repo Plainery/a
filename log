@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User IP Address Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .scrolling-box {
+            width: 80%;
+            height: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+            border: 2px solid #333;
+            background-color: #fff;
+            color: #333;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px auto;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .scrolling-text {
+            position: absolute;
+            animation: scroll-left 10s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                left: 100%;
+            }
+            100% {
+                left: -100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your IP Address</h1>
+        <div class="scrolling-box">
+            <div id="ip-text" class="scrolling-text">Loading your IP address...</div>
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch the IP address using the ipify API
+        function getIP() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const ip = data.ip;
+                    document.getElementById('ip-text').textContent = "Your IP address is: " + ip;
+                })
+                .catch(error => {
+                    console.error('Error fetching IP address:', error);
+                    document.getElementById('ip-text').textContent = "Failed to load IP address";
+                });
+        }
+
+        // Get the user's IP address when the page loads
+        window.onload = getIP;
+    </script>
+</body>
+</html>
